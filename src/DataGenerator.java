@@ -8,7 +8,7 @@ import java.util.Random;
  * 
  * Data generator for the 2021 sorting competition.
  * Roughly follows Poisson distribution with 20 successes 
- * and lambda = 5, adjusted to range [0-100000000] 
+ * and lambda = 1.5, adjusted to range [0-1000000] 
  *
  */
 
@@ -28,13 +28,12 @@ public class DataGenerator {
 		
 		// split the range into buckets:
 		
-		int step = 100000000/20;
+		int step = 10000000/20;
 		
-		// {0.2706705665, 0.2706705665, 0.1804470443, 0.0902235222, 0.0360894089, 0.0120298030, 0.0034370866, 0.0008592716, 0.0001909493}
-		double [] probs = {0.2706705665, 0.2706705665, 0.1804470443, 0.0902235222, 0.0360894089, 0.0120298030, 0.0034370866, 
-				0.0008592716, 0.0001909493};
+		// {0.2725317930, 0.3542913309, 0.2302893651, 0.0997920582, 0.0324324189, 0.0084324289, 0.0018270263, 0.0003393049}
+		double [] probs = {0.2725317930, 0.3542913309, 0.2302893651, 0.0997920582, 0.0324324189, 0.0084324289, 0.0018270263, 0.0003393049};
 		
-		System.out.println(probs.length);
+		//System.out.println(probs.length);
 		
 		double sum = 0;
 		for (double p : probs) {
@@ -52,7 +51,7 @@ public class DataGenerator {
 		}
 		
 		for (int i = probs.length; i < 19; ++i) {
-			cumulProbs[i] = cumulProbs[i-1] + (1-sum)/7.0;
+			cumulProbs[i] = cumulProbs[i-1] + (1-sum)/(19 - probs.length);
 		}
 		
 		for(double p: cumulProbs) {

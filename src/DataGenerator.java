@@ -40,7 +40,7 @@ public class DataGenerator {
 			sum += p;
 		}
 		
-		System.out.println("sum = " + sum + " leftover:" + (1 - sum) + " step " + step);
+		//System.out.println("sum = " + sum + " leftover:" + (1 - sum) + " step " + step);
 		
 		// cumulative p
 		double [] cumulProbs = new double[19];

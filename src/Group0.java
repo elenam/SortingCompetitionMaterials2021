@@ -85,7 +85,8 @@ public class Group0 {
 
 		PrintWriter out = new PrintWriter(outputFilename);
 		for (Integer s : sorted) {
-			out.println(s);
+			//out.println(s);
+			out.println(s + " " + Integer.toBinaryString(s));
 		}
 		out.close();
 

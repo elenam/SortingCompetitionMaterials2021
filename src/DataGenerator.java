@@ -40,7 +40,7 @@ public class DataGenerator {
 			sum += p;
 		}
 		
-		System.out.println("sum = " + sum + " leftover:" + (1 - sum));
+		System.out.println("sum = " + sum + " leftover:" + (1 - sum) + " step " + step);
 		
 		// cumulative p
 		double [] cumulProbs = new double[19];
@@ -71,7 +71,7 @@ public class DataGenerator {
 				if (cumulProbs[b] >= prob) break; // find the index of the bucket
 			} // if none found, b = 20 (prob larger than the last one in cumulProbs)
 			// generate a random number in that bucket:
-			data[i] = b*step + r.nextInt(step);
+			data[i] = b*step + r.nextInt(step); 
 		}
 		
 		// write them out

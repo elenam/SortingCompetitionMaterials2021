@@ -31,8 +31,7 @@ The range of [0 to 10000000] is broken down into 20 buckets of 500000 each. The 
 
 More details are in the file [DataGenerator.java](src/DataGenerator.java).
 
-The generated numbers are written into a data file one per line. Sample data files are: [data1.txt](data1.txt) (1000 elements), [data2.txt](data2.txt) (1000 elements), and [data3.txt](data3.txt) (10000 elements). 
-
+The generated numbers are written into a data file one per line. Sample data files are: [data1.txt](data1.txt) (10000 elements), [dataSmall.txt](dataSmall.txt) (an example of with 12 small numbers, to illustrate the sorting. Created manually, doesn't follow the distribution). 
 ## How do you need to sort the data <a name="sortingRules"></a>
 
 The numbers are sorted on the following criteria:

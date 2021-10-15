@@ -35,7 +35,15 @@ The generated numbers are written into a data file one per line. Sample data fil
 
 ## How do you need to sort the data <a name="sortingRules"></a>
 
-***More info will be given***
+The numbers are sorted on the following criteria:
+
+* The number of 1s in the binary representation of a number. For instance, 16 is 10000 is binary, and goes before 3, which is 11 in binary. There is no padding of zeros in the beginning. 
+* If the number of 1s is equal, the numbers are compared the length of the longest repeated substring of zeros and ones in their binary representation, 
+i.e. the longest pattern that apprears at least twice (non-overlapping). For instance, 7 (111 in binary) and 73 (1001001 in binary) both have three 1s, 
+but the longest repeated substring in 1, of length 1, and the longest repeated substring in 73 is 100 (or, alternatively, 001), of length 3. Thus 7 is before 73. 
+Also note that even though the pattern 1001 appears twice in 1001001, the two occurrences share the middle 1, and therefore are ovelapping and don't count. 
+* If both of the above comparisons are equal, the number with the lower value is first. For instance, 5 (101 in binary) and 9 (1001 in binary) both have two 1s 
+and the longest repeated substring of length 1, so 5 is before 9 since it is smaller.  
 
 Example of sorted data, with comments:
 ```
@@ -54,9 +62,10 @@ Example of sorted data, with comments:
 ```
 
 The file [Group0.java](src/Group0.java) provides a Comparator that implements this comparison and provides some tests. Please
-consult it as needed. However, note that this is a very slow implementation, and you should think of a way to make yours much faster. 
+consult it as needed. However, note that this is a slow implementation, and you should think of a way to make yours much faster. 
 
-Once the data is sorted, it is written out to the output file, also one number per line, in the increasing order (according to the comparison given above). The files [out1.txt](out1.txt), [out2.txt](out2.txt), and [out3.txt](out3.txt) have the results of sorting for the three given data files. 
+Once the data is sorted, it is written out to the output file, also one number per line, in the increasing order (according to the comparison given above). 
+The file [out1.txt](out1.txt) has the results of sorting [data1.txt](data1.txt). 
 
 ## Setup for sorting <a name="setup"></a>
 

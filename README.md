@@ -1,6 +1,6 @@
 # SortingCompetitionMaterials2021
 
-Materials for UMM CSci 3501 "Algorithms and computability" 2017 sorting competition.
+Materials for UMM CSci 3501 "Algorithms and computability" 2021 sorting competition.
 
 # Table of contents
 * [Goal of the competition](#goal)

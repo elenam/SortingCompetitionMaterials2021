@@ -49,7 +49,9 @@ public class Group0 {
 	// You would need to provide your own function that prints your sorted array to 
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
-		Arrays.sort(toSort, new BinaryComparator());
+		// Arrays.sort(toSort, new BinaryComparator());
+		QuickSort<Integer> quicksorter = new QuickSort<Integer>();
+		quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {

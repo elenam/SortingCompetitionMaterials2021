@@ -16,7 +16,8 @@ public class DataGenerator {
 	
 	public static void main(String [] args) throws FileNotFoundException{
 		int seed = 1111; // change the seed to get different data
-		Random r = new Random(seed);
+		int seed2 = 2222;
+		Random r = new Random(seed2);
 		
 		if (args.length < 2) {
 			System.out.println("Please run with two command line arguments: output file name and the number of items");

@@ -55,10 +55,10 @@ public class DataGenerator {
 			cumulProbs[i] = cumulProbs[i-1] + (1-sum)/(19 - probs.length);
 		}
 		
-		for(double p: cumulProbs) {
-			System.out.print(p + " ");
-		}
-		System.out.println();
+//		for(double p: cumulProbs) {
+//			System.out.print(p + " ");
+//		}
+//		System.out.println();
 		
 		// generating data 
 		int[] data = new int[n];

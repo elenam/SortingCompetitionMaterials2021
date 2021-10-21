@@ -49,9 +49,9 @@ public class Group0 {
 	// You would need to provide your own function that prints your sorted array to 
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
-		// Arrays.sort(toSort, new BinaryComparator());
-		QuickSort<Integer> quicksorter = new QuickSort<Integer>();
-		quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
+		Arrays.sort(toSort, new BinaryComparator());
+		// QuickSort<Integer> quicksorter = new QuickSort<>();
+		// quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {
@@ -101,10 +101,12 @@ public class Group0 {
 			int digits1 = Helper.numBinaryOnes(n1);
 			int digits2 = Helper.numBinaryOnes(n2);
 			
+			if (digits1 != digits2) return (digits1 - digits2);
+
 			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
 			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+
 			
-			if (digits1 != digits2) return (digits1 - digits2);
 			// executed only of the number of 1s is the same
 			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
 			

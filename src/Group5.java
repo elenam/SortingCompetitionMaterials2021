@@ -50,6 +50,8 @@ public class Group0 {
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
 		Arrays.sort(toSort, new BinaryComparator());
+		// QuickSort<Integer> quicksorter = new QuickSort<>();
+		// quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {
@@ -98,11 +100,12 @@ public class Group0 {
 		public int compare(Integer n1, Integer n2) {
 			int digits1 = Helper.numBinaryOnes(n1);
 			int digits2 = Helper.numBinaryOnes(n2);
+			
+			if (digits1 != digits2) return (digits1 - digits2);
 
 			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
 			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
 
-			if (digits1 != digits2) return (digits1 - digits2);
 			
 			// executed only of the number of 1s is the same
 			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);

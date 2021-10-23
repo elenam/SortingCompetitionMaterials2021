@@ -16,7 +16,7 @@ public class DataGenerator {
 	
 	public static void main(String [] args) throws FileNotFoundException{
 		int seed = 1111; // change the seed to get different data
-		int seed2 = 2222;
+		int seed2 = 1234;
 		Random r = new Random(seed2);
 		
 		if (args.length < 2) {

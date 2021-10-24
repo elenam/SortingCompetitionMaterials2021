@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch DataGenerator",
+            "request": "launch",
+            "mainClass": "DataGenerator",
+            "projectName": "SortingCompetitionMaterials2021_2fb427ec"
+        },
+        {
+            "type": "java",
+            "name": "Launch Group0",
+            "request": "launch",
+            "mainClass": "Group0",
+            "projectName": "SortingCompetitionMaterials2021_2fb427ec",
+            "args": "dataSmall.txt mySmallOut.txt"
+        },
+        {
+            "type": "java",
+            "name": "Launch Group5",
+            "request": "launch",
+            "mainClass": "Group5",
+            "projectName": "SortingCompetitionMaterials2021_2fb427ec",
+            "args": "dataSmall.txt mySmallOut.txt"
+        },
+        {
+            "type": "java",
+            "name": "Launch Helper",
+            "request": "launch",
+            "mainClass": "Helper",
+            "projectName": "SortingCompetitionMaterials2021_2fb427ec"
+        }
+    ]
+}

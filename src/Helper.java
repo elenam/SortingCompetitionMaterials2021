@@ -65,67 +65,67 @@ public class Helper {
 	}
 	
 	
-	// public static int lengthLongestRepeatedSubstring(String binary) {
-	// 	int length = 0;
-	// 	// iterate over possible lengths
-	// 	// the longest length is length/2 (rounded down) since they are non-overlapping
-	// 	for (int n = 1; n <= Math.floor(binary.length()/2.0); ++n) {
-	// 		//System.out.println("n = " + n);
-	// 		boolean found = false;
-	// 		// first index (the first index of the first copy): 
-	// 		for (int i = 0; i < binary.length() - 2*n + 1; ++i) {
-	// 			// second index (substrings are non-overlapping):
-	// 			for (int j = i + n; j < binary.length() - n + 1; ++j) {
-	// 				// iterating over the substring length:
-	// 				int k = 0; // need the index after the loop to see if it finished
-	// 				for (; k < n; k++) {
-	// 					//System.out.println("i = " + i + ", j = " + j + ", k = " + k);
-	// 					if (binary.charAt(i + k) != binary.charAt(j + k)) {
-	// 						break;
-	// 					}
-	// 				}	
-	// 				//System.out.println("k = " + k + ",n = " + n);
-	// 				if (k == n) {
-	// 					found = true; 
-	// 				}
-	// 			}
-	// 		}
-	// 		//System.out.println(found);
-	// 		if (found) {
-	// 			length++;
-	// 		} else {
-	// 			return length;
-	// 		}
-	// 	}
-		
-	// 	return length;
-	// }
-
-	static int lengthLongestRepeatedSubstring(String binary)
-	{
-   
-	  // Creating a set to store the last positions of occurrence
-	  HashMap<Character, Integer> seen = new HashMap<>(); 
-	  int maximum_length = 0;
-   
-	  // starting the initial point of window to index 0
-	  int start = 0;
-   
-	  for(int end = 0; end < binary.length(); end++)
-	  {
-		// Checking if we have already seen the element or not
-		if(seen.containsKey(binary.charAt(end)))
-		{
-		  // If we have seen the number, move the start pointer
-		  // to position after the last occurrence
-		  start = Math.max(start, seen.get(binary.charAt(end)) + 1);
+	public static int lengthLongestRepeatedSubstring(String binary) {
+		int length = 0;
+		// iterate over possible lengths
+		// the longest length is length/2 (rounded down) since they are non-overlapping
+		for (int n = 1; n <= Math.floor(binary.length()/2.0); ++n) {
+			//System.out.println("n = " + n);
+			boolean found = false;
+			// first index (the first index of the first copy): 
+			for (int i = 0; i < binary.length() - 2*n + 1; ++i) {
+				// second index (substrings are non-overlapping):
+				for (int j = i + n; j < binary.length() - n + 1; ++j) {
+					// iterating over the substring length:
+					int k = 0; // need the index after the loop to see if it finished
+					for (; k < n; k++) {
+						//System.out.println("i = " + i + ", j = " + j + ", k = " + k);
+						if (binary.charAt(i + k) != binary.charAt(j + k)) {
+							break;
+						}
+					}	
+					//System.out.println("k = " + k + ",n = " + n);
+					if (k == n) {
+						found = true; 
+					}
+				}
+			}
+			//System.out.println(found);
+			if (found) {
+				length++;
+			} else {
+				return length;
+			}
 		}
-   
-		// Updating the last seen value of the character
-		seen.put(binary.charAt(end), end);
-		maximum_length = Math.max(maximum_length, end-start + 1);
-	  }
-	  return maximum_length;
+		
+		return length;
 	}
+
+	// static int lengthLongestRepeatedSubstring(String binary)
+	// {
+   
+	//   // Creating a set to store the last positions of occurrence
+	//   HashMap<Character, Integer> seen = new HashMap<>(); 
+	//   int maximum_length = 0;
+   
+	//   // starting the initial point of window to index 0
+	//   int start = 0;
+   
+	//   for(int end = 0; end < binary.length(); end++)
+	//   {
+	// 	// Checking if we have already seen the element or not
+	// 	if(seen.containsKey(binary.charAt(end)))
+	// 	{
+	// 	  // If we have seen the number, move the start pointer
+	// 	  // to position after the last occurrence
+	// 	  start = Math.max(start, seen.get(binary.charAt(end)) + 1);
+	// 	}
+   
+	// 	// Updating the last seen value of the character
+	// 	seen.put(binary.charAt(end), end);
+	// 	maximum_length = Math.max(maximum_length, end-start + 1);
+	//   }
+	//   return maximum_length;
+	// }
 
 }

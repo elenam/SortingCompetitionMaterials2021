@@ -49,7 +49,7 @@ public class Group5 {
 	// You would need to provide your own function that prints your sorted array to 
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
-		Arrays.parallelSort(toSort, new BinaryComparator());
+		Arrays.sort(toSort, new BinaryComparator());
 		// QuickSort<Integer> quicksorter = new QuickSort<>();
 		// quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
 	}

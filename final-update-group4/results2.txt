@@ -1,0 +1,53 @@
+Running final2.txt
+
+
+ Group 0: 
+
+6244
+
+6220
+
+6267
+
+Median: 6244.0
+Results of diff:
+
+
+ Group 1: 
+
+
+
+
+Median: 0.0
+Results of diff:
+
+
+ Group 2: 
+
+
+
+
+Median: 0.0
+Results of diff:
+
+
+ Group 3: 
+
+
+
+
+Median: 0.0
+Results of diff:
+
+
+ Group 4: 
+
+4023
+
+4039
+
+4060
+
+Median: 4039.0
+Results of diff:
+

@@ -184,8 +184,8 @@ public class Group4 {
 			String binary1 = Integer.toBinaryString(n1);
 			String binary2 = Integer.toBinaryString(n2);
 
-			int lengthSubstring1 = Helper4.lengthLongestRepeatedSubstring(binary1);
-			int lengthSubstring2 = Helper4.lengthLongestRepeatedSubstring(binary2);
+			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(binary1);
+			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(binary2);
 			
 			// executed only of the number of 1s is the same
 			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);

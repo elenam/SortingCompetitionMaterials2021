@@ -1,4 +1,4 @@
-// Updated 11/4/21
+// Updated 
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.HashMap;
 
-public class Group9{
+// Ben G and Johannes M
+
+public class Group9 {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -101,11 +103,11 @@ public class Group9{
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper.numBinaryOnes(n1);
-			int digits2 = Helper.numBinaryOnes(n2);
+			int digits1 = Integer.bitCount(n1);
+			int digits2 = Integer.bitCount(n2);
 			
-			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+			int lengthSubstring1 = lengthLongestRepeatedSubstring(n1);
+			int lengthSubstring2 = lengthLongestRepeatedSubstring(n2);
 			
 			if (digits1 != digits2) return (digits1 - digits2);
 			// executed only of the number of 1s is the same
@@ -122,7 +124,7 @@ public class Group9{
 		private static HashMap<Integer, Integer> substringLengthMap = new HashMap<>(10000);
 
 		private static Integer memoizeLength(Integer n){
-			Integer substringLength = Integer.valueOf(Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n)));
+			Integer substringLength = Integer.valueOf(lengthLongestRepeatedSubstring(n));
 			substringLengthMap.put(n, substringLength);
 			return substringLength;
 		}
@@ -164,6 +166,40 @@ public class Group9{
 			}
 		}
 	}
-	
 
-} 
+	public static int lengthLongestRepeatedSubstring(Integer binary) {
+		/*Get the index (counting from most significant to least) of the
+		first set bit. */
+		int startPos = Integer.numberOfLeadingZeros(binary);
+		int binaryLength = 32 - startPos; // Integers contain ints (32 bits)
+		int LCSRe[][] = new int[binaryLength + 1][binaryLength + 1];
+		int res_length = 0; // To store length of result
+		int binaryPos = 32 - startPos;
+
+		/*
+		 * Based on Rajput-JI's implementation.
+		 * https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/
+		 * 
+		 * We removed unnecessary parts and used bitwise operators
+		 */
+		for (int i = 1; i <= binaryLength; i++) {
+			for (int j = i + 1; j <= binaryLength; j++) {
+				// (j-i) > LCSRe[i-1][j-1] to remove
+				// overlapping
+				if (((binary >>> binaryPos - i) & 1) == ((binary >>> binaryPos - j) & 1)
+						&& LCSRe[i - 1][j - 1] < (j - i)) {
+					LCSRe[i][j] = LCSRe[i - 1][j - 1] + 1;
+					// updating maximum length of the
+					// substring and updating the finishing
+					// index of the suffix
+					if (LCSRe[i][j] > res_length) 
+						res_length = LCSRe[i][j];
+				} else {
+					LCSRe[i][j] = 0;
+				}
+			}
+		}
+		return res_length;
+	}
+	
+}

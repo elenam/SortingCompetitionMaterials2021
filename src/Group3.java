@@ -1,4 +1,4 @@
-// Updated 11/4/21
+// Updated 
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -102,15 +102,20 @@ public class Group3 {
 
 			int digits1 = Integer.bitCount(n1);
 			int digits2 = Integer.bitCount(n2);
-
-//			int lengthSubstring1 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-//			int lengthSubstring2 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-			
-			int lengthSubstring1 = Helper3.LNRNOS(Integer.toBinaryString(n1));
-			int lengthSubstring2 = Helper3.LNRNOS(Integer.toBinaryString(n2));
 			
 			if (digits1 != digits2) return (digits1 - digits2);
 			// executed only of the number of 1s is the same
+			
+			// Moved the code that finds the length of the LNRNOS to after we check to see if
+			// the number of 1s in it's binary representation are the same or not, because we
+			// only want to calculate the length of the LNRNOS if the number of 1s is the same.
+
+//			int lengthSubstring1 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+//			int lengthSubstring2 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+
+			int lengthSubstring1 = LNRNOS(Integer.toBinaryString(n1));
+			int lengthSubstring2 = LNRNOS(Integer.toBinaryString(n2));
+
 			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
 			
 			// executed only if both of the other ones were the same:
@@ -118,6 +123,49 @@ public class Group3 {
 		}
 		
 	}
-	
+
+	/**
+	 * LNRNOS (Longest Non-Repeating Non-Overlapping Substring)
+	 * Base code from https://iq.opengenus.org/longest-repeating-non-overlapping-substring/
+	 * @param str  String.
+	 * @return integer length, the size of the longest non-repeating non-overlapping substring.
+	 */
+	public static int LNRNOS(String str) {
+		int n = str.length();
+		int dp[][] = new int[n + 1][n + 1];
+		int max = 0, index = 0;
+		for (int i = 1; i <= n; ++i) {
+			for (int j = i + 1; j <= n; ++j) {
+				if (str.charAt(i - 1) == str.charAt(j - 1) && j - i > dp[i - 1][j - 1]) {
+					dp[i][j] = dp[i - 1][j - 1] + 1;
+					if (max < dp[i][j]) {
+						max = dp[i][j];
+						//save last index of substring
+						index = Math.max(i, index);
+					}
+				} else
+					dp[i][j] = 0;
+			}
+		}
+		int length = str.substring(index - max, index).length();
+		return length;
+	}
 
 }
+
+/**
+Other approaches/exploration
+
+We definitely believed that there were improvements to be had when it came to counting the number of 0s in the binary 
+representation of a number, and finding the longest non-repeating, non-overlapping substring.
+We found a built in Java method for Integers called bitCount that has a time complexity of O(1).  Whereas, the original
+implentation was reliant on the length of the binary string.
+We found the LNRNOS suffix-tree implementation, but believed that we wouldn't have enough time to implement it, so we went with
+the dynamic programming implementation instead.  
+
+We talked about bucket-sort, since we know the distribution of the data.
+
+Also, in binaryComparator we moved the calculation of LNRNOS to after we check to see if the number of 1s in the binary representations
+are the same or not, since if they aren't the same, we don't need to calculate LNRNOS or the stuff after.
+
+**/

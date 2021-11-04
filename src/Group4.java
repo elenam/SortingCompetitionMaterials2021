@@ -1,12 +1,9 @@
-// Updated 11/4/21
+// Updated 
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Group4 {
 
@@ -26,13 +23,15 @@ public class Group4 {
 		Integer [] data = readInts(inputFileName);
 		
 		Integer [] toSort = data.clone();
-		
-		sort(toSort);
-		
+
 		//printArray(sorted, 100);
 		
 		toSort = data.clone();
-		
+
+		warmUp(toSort);
+
+		toSort = data.clone();
+
 		Thread.sleep(10); //to let other things finish before timing; adds stability of runs
 
 		long start = System.currentTimeMillis();
@@ -47,49 +46,25 @@ public class Group4 {
 
 	}
 	
-	// YOUR SORTING METHOD GOES HERE. 
-	// You may call other methods and use other classes. 
-	// Note: you may change the return type of the method. 
-	// You would need to provide your own function that prints your sorted array to 
+
+	private static void warmUp(Integer[] toSort) {
+		Arrays.sort(Arrays.copyOfRange(toSort,0,toSort.length/2), new BinaryComparator());
+	}
+
+	private static void runOldImplementation(Integer[] toSort) {
+		Arrays.sort(toSort, new OldComparator());
+	}
+
+	// YOUR SORTING METHOD GOES HERE.
+	// You may call other methods and use other classes.
+	// Note: you may change the return type of the method.
+	// You would need to provide your own function that prints your sorted array to
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
-//		quickSort(toSort,0,toSort.length -1);
-		Arrays.sort(toSort, new BinaryComparator());
+		Arrays.sort(toSort,new BinaryComparator());
 	}
-//
-//	public static void quickSort(Integer[] arr, int begin, int end) {
-//		if (begin < end) {
-//			int partitionIndex = partition(arr, begin, end);
-//
-//			quickSort(arr, begin, partitionIndex-1);
-//			quickSort(arr, partitionIndex+1, end);
-//		}
-//	}
-//
-//	private static int partition(Integer[ ] arr, int begin, int end) {
-//		int pivot = arr[end];
-//		int i = (begin-1);
-//
-//		Comparator<Integer> comparator = new BinaryComparator();
-//
-//		for (int j = begin; j < end; j++) {
-//			if (comparator.compare(arr[j], pivot) <= 0) {
-//				i++;
-//
-//				int swapTemp = arr[i];
-//				arr[i] = arr[j];
-//				arr[j] = swapTemp;
-//			}
-//		}
-//
-//		int swapTemp = arr[i+1];
-//		arr[i+1] = arr[end];
-//		arr[end] = swapTemp;
-//
-//		return i+1;
-//	}
-
-	private static String[] readData(String inFile) throws FileNotFoundException {
+	
+	private static String[] readInteger(String inFile) throws FileNotFoundException {
 		ArrayList<String> input = new ArrayList<>();
 		Scanner in = new Scanner(new File(inFile));
 		
@@ -127,25 +102,91 @@ public class Group4 {
 		out.close();
 
 	}
+
+	// We tried using quicksort but it seems that mergesort handles the data better. Here for reference.
+	public static void optimizedQuickSort(Integer[] toSort, int p, int r)
+	{
+		while (p < r)
+		{
+			// do insertion sort if 9 or smaller
+			if(r - p < 9)
+			{
+				insertionSort(toSort, p, r);
+				break;
+			}
+			else
+			{
+				int pivot = partition(toSort, p, r);
+
+				if (pivot - p < r - pivot) {
+					optimizedQuickSort(toSort, p, pivot - 1);
+					p = pivot + 1;
+				} else {
+					optimizedQuickSort(toSort, pivot + 1, r);
+					r = pivot - 1;
+				}
+			}
+		}
+	}
+
+
+
+	public static int partition(Integer[] toSortInteger, int p, int r) {
+		Integer x = toSortInteger[r];
+		int i = p - 1;
+		BinaryComparator comparator = new BinaryComparator();
+
+		for (int j = p; j <= r - 1; j++) {
+			if ((comparator.compare(toSortInteger[j], x)) <= 0) {
+				i = i + 1;
+				Integer swap = toSortInteger[i];
+				toSortInteger[i] = toSortInteger[j];
+				toSortInteger[j] = swap;
+
+			}
+		}
+		Integer swap = toSortInteger[i + 1];
+		toSortInteger[i + 1] = toSortInteger[r];
+		toSortInteger[r] = swap;
+		return i + 1;
+	}
+	public static void insertionSort(Integer[] toSort, int p, int n)
+	{
+		// Start from second element (element at index 0
+		// is already sorted)
+		for (int i = p + 1; i <= n; i++)
+		{
+			Integer value = toSort[i];
+			int j = i;
+			BinaryComparator comparator = new BinaryComparator();
+
+			// Find the index j within the sorted subset arr[0..i-1]
+			// where element arr[i] belongs
+			while (j > p && (comparator.compare(toSort[j-1], value) > 0))
+			{
+				toSort[j] = toSort[j - 1];
+				j--;
+			}
+			// Note that subarray arr[j..i-1] is shifted to
+			// the right by one position
+
+			toSort[j] = value;
+		}
+	}
 	
 	private static class BinaryComparator implements Comparator<Integer> {
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper4.numBinaryOnes(n1);
-			int digits2 = Helper4.numBinaryOnes(n2);
-
-			if (digits1 != digits2) return (digits1 - digits2);
+			int diff = Integer.bitCount(n1) - Integer.bitCount(n2);
+			if (diff != 0) return diff;
 
 			String binary1 = Integer.toBinaryString(n1);
 			String binary2 = Integer.toBinaryString(n2);
 
-			int lengthSubstring1 = LongestRepeatedSubstring.lrs(binary1).length();
-			int lengthSubstring2 = LongestRepeatedSubstring.lrs(binary2).length();
-
-//			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(binary1);
-//			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(binary2);
-
+			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(binary1);
+			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(binary2);
+			
 			// executed only of the number of 1s is the same
 			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
 			
@@ -153,6 +194,26 @@ public class Group4 {
 			return (n1 - n2);
 		}
 		
+	}
+
+	private static class OldComparator implements Comparator<Integer> {
+
+		@Override
+		public int compare(Integer n1, Integer n2) {
+			int digits1 = Helper4.numBinaryOnes(n1);
+			int digits2 = Helper4.numBinaryOnes(n2);
+
+			int lengthSubstring1 = Helper4.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+			int lengthSubstring2 = Helper4.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+
+			if (digits1 != digits2) return (digits1 - digits2);
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
+		}
+
 	}
 	
 

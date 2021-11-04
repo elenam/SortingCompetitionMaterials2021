@@ -1,5 +1,4 @@
-
-// Updated 11/4/21
+import java.util.Arrays;
 
 public class Helper4 {
 
@@ -81,9 +80,8 @@ public class Helper4 {
                         resultLength = vector[i][j];
                         index = Math.max(i, index);
                     }
-                } else {
-                    vector[i][j] = 0;
                 }
+                else vector[i][j] = 0;
             }
         }
 
@@ -95,5 +93,43 @@ public class Helper4 {
 
         return result.toString().length();
     }
+
+
+    // This was an approach we tried to get the lrs that was more efficient but was not correct
+//    public static String lcp(String s, String t) {
+//        int n = Math.min(s.length(), t.length());
+//        for (int i = 0; i < n; i++) {
+//            if (s.charAt(i) != t.charAt(i))
+//                return s.substring(0, i);
+//        }
+//        return s.substring(0, n);
+//    }
+//
+//
+//    // return the longest repeated string in s
+//    public static int lrs(String s) {
+//
+//        // form the N suffixes
+//        int N  = s.length();
+//        String[] suffixes = new String[N];
+//        for (int i = 0; i < N; i++) {
+//            suffixes[i] = s.substring(i, N);
+//        }
+//
+//        // sort them
+////        System.out.println(Arrays.toString(suffixes));
+//        Arrays.sort(suffixes);
+////        System.out.println("Sorted: \n" + Arrays.toString(suffixes));
+//
+//        // find longest repeated substring by comparing adjacent sorted suffixes
+//        String lrs = "";
+//        for (int i = 0; i < N - 1; i++) {
+//            String x = lcp(suffixes[i], suffixes[i+1]);
+//            if (x.length() > lrs.length())
+//                lrs = x;
+//        }
+////        System.out.println("Sorted: \n" + lrs.length());
+//        return lrs.length();
+//    }
 
 }

@@ -1,4 +1,4 @@
-// Updated 11/4/21
+// Updated 
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,11 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.List;
 
 public class Group7 {
 
@@ -56,22 +52,9 @@ public class Group7 {
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
 		Arrays.sort(toSort, new BinaryComparator());
-		//bucketSort(toSort);
+
 	}
 	
-	private static String[] readData(String inFile) throws FileNotFoundException {
-		ArrayList<String> input = new ArrayList<>();
-		Scanner in = new Scanner(new File(inFile));
-		
-		while(in.hasNext()) {
-			input.add(in.next());
-		}
-				
-		in.close();
-		
-		// the string array is passed just so that the correct type can be created
-		return input.toArray(new String[0]);
-	}
 	
 	private static Integer[] readInts(String inFile) throws FileNotFoundException {
 		ArrayList<Integer> input = new ArrayList<>();
@@ -104,75 +87,27 @@ public class Group7 {
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper.numBinaryOnes(n1);
-			int digits2 = Helper.numBinaryOnes(n2);
+			// compares the number of 1s in each integer.
+			if (Helper7.numBinaryOnes(n1) != Helper7.numBinaryOnes(n2))
+			return (Helper7.numBinaryOnes(n1) - Helper7.numBinaryOnes(n2));
 			
-			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-			
-			if (digits1 != digits2) return (digits1 - digits2);
-			// executed only of the number of 1s is the same
-			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+			// executed only of the number of 1s is the same.
+			// compares the length of repeated substrings in each integer.
+			if (Helper7.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1)) != Helper7.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2)))
+			return (Helper7.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1)) - Helper7.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2)));
 			
 			// executed only if both of the other ones were the same:
 			return (n1 - n2);
 		}
 		
 	}
-	
-
-	private static int hash( int i, int max, int numOfBuckets){
-		return (int) ((double) i / max * (numOfBuckets -1));
-	}
-
-	private static Integer[] bucketSort(Integer[] toSort){
-		final int numOfBuckets = toSort.length;
-		List<List<Integer>> buckets = new ArrayList<>(numOfBuckets);
-		for(int i=0; i< numOfBuckets; i++){
-			buckets.add(new ArrayList<Integer>());
-		}
-		//////////////////////////////
-		for(int i=0; i < toSort.length; i++){
-			Integer[] binArray = new Integer[toSort.length];
-			binArray[i]= Helper.numBinaryOnes(toSort[i]);	
-		}
-		int max = findMax(toSort);
-		for (int i : toSort){
-			buckets.get(hash(i,max,numOfBuckets)).add(i);
-		}
-
-	
-		for(List<Integer> bucket : buckets){
-			Integer[] finalResult = new Integer[bucket.size()];
-			Integer[] newBucket;
-			newBucket =bucket.toArray(finalResult);
-			Arrays.sort(newBucket, new BinaryComparator());
-		}
-		
-		//Comparator<Integer> comparator = Comparator.naturalOrder();
-
-		//for(List<Integer> bucket  : buckets){
-    	//	bucket.sort(comparator);
-		//}
-
-		List<Integer> sortedArray= new LinkedList<>();
-		for(List<Integer> bucket : buckets){
-			sortedArray.addAll(bucket);
-		}
-		//return sortedArray;
-		Integer[] finalResult = new Integer[sortedArray.size()];
-		return(sortedArray.toArray(finalResult));
-		
-
-	}
-	///////////////////////
-	private static int findMax(Integer[] input){
-		int m = Integer.MIN_VALUE;
-		for(int i: input){
-			m = Math.max(i,m);
-		}
-		return m;
-	}
-	
-
 }
+
+/**
+ * We had tried implementing bucket sort.
+ * However, as we got further we got into trying implementing
+ * it, we realized that we might have needed to create dictionaries 
+ * to store the information needed for the comparisons,
+ * and this just didn't work for us as we thought it would
+ * increase the time.
+ */

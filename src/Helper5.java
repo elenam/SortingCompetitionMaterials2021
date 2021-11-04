@@ -1,5 +1,3 @@
-// Updated 11/4/21
-
 //import java.util.HashMap;
 
 public class Helper5 {

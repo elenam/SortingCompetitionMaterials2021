@@ -1,19 +1,22 @@
-// Updated 11/4/21
+// Updated
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Collections;
 
 /**
  * @author Thomas Dahlgren
  * @author Josh Quist
+ * 
+ * We are okay with our full names being used.
+ * 
+ * We only ever really tried bucket sort because we liked how it split up the work of having to 
+ * call the longest repeating substring function since it took the most time to run.
  */
 public class Group8 {
-
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
 		if (args.length < 2) {
@@ -48,11 +51,6 @@ public class Group8 {
 		writeOutResult(toSort, outFileName);
 	}
 	
-	// YOUR SORTING METHOD GOES HERE. 
-	// You may call other methods and use other classes. 
-	// Note: you may change the return type of the method. 
-	// You would need to provide your own function that prints your sorted array to 
-	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
 		int n = toSort.length;
 		if (n <= 0)
@@ -85,22 +83,20 @@ public class Group8 {
 		int n = toSort.size();
 		if (n <= 0)
             return;
- 
+
 		ArrayList<ArrayList<Integer>> buckets = new ArrayList<>();
- 
+
         for (int i = 0; i < 13; i++) {
 			buckets.add(new ArrayList<Integer>());
         }
- 
         for (int i = 0; i < n; i++) {
-            int idx = MaxRepeatNonOverlapSubstrDp(Integer.toBinaryString(toSort.get(i)));
+            int idx = longestDupSubstringNoOverlap(Integer.toBinaryString(toSort.get(i)));
 			int index = Collections.binarySearch(buckets.get(idx), toSort.get(i));
 			if(index<0){
 				index = index*(-1) - 1;
 			}
             buckets.get(idx).add(index, toSort.get(i));
         }
- 
         int index = 0;
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < buckets.get(i).size(); j++) {
@@ -149,27 +145,26 @@ public class Group8 {
 
 	}
 
-	//Source: https://blog.vcillusion.co.in/longest-repeating-non-overlapping-substring/
-	public static int MaxRepeatNonOverlapSubstrDp(String str){
-        int n = str.length();
-        int[][] dp = new int[n + 1][n + 1];
+    //Modified code from https://leetcode.com/problems/longest-duplicate-substring/discuss/1513594/Go-golang-shortest-solution 
+    //to not have overlapping
+    public static int longestDupSubstringNoOverlap(String s){
         int max = 0;
-
-        for (int i = 1; i <= n; i++)
-        {
-            for (int j = i + 1; j <= n; j++)
-            {
-                if (str.charAt(j-1) == str.charAt(i-1) && (j - i) > dp[i - 1][j - 1]){
-                    dp[i][j] = 1 + dp[i - 1][j - 1];
-                    if (dp[i][j] > max)
-                    {
-                        max = dp[i][j];
-                    }
+        int backIndex = 1;
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            if(i + backIndex > length){
+                return max;
+            }
+            else if (s.substring(0,i).contains(s.substring(i, i + backIndex))){
+                while(i + backIndex <= s.length() && s.substring(0,i).contains(s.substring(i, i + backIndex))){
+                    max = backIndex;
+                    backIndex++;
                 }
             }
         }
         return max;
     }
+
 	// private static class BinaryComparator implements Comparator<Integer> {
 
 	// 	@Override

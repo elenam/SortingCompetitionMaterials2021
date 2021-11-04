@@ -1,4 +1,4 @@
-// Updated 11/4/21
+// Updated
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
+
+/**
+ * Group Members: Nicholas G, Dylan C
+ */
 
 public class Group6 {
 
@@ -45,13 +49,26 @@ public class Group6 {
 
     }
 
+    // YOUR SORTING METHOD GOES HERE.
+    // You may call other methods and use other classes.
+    // Note: you may change the return type of the method.
+    // You would need to provide your own function that prints your sorted array to
+    // a file in the exact same format that my program outputs
     private static void sort(Integer[] toSort) {
-        Arrays.sort(toSort, new BinaryComparator());
+        obj[] inputConverted = new obj[toSort.length];
+        for (int i = 0; i < toSort.length; i++) {
+            inputConverted[i] = new obj(toSort[i]);
+        }
+        Arrays.sort(inputConverted, new BinaryComparator());
+        for (int i = 0; i < toSort.length; i++) {
+            toSort[i] = inputConverted[i].getName();
+        }
     }
 
     private static String[] readData(String inFile) throws FileNotFoundException {
         ArrayList<String> input = new ArrayList<>();
         Scanner in = new Scanner(new File(inFile));
+
 
         while(in.hasNext()) {
             input.add(in.next());
@@ -79,32 +96,40 @@ public class Group6 {
     }
 
     private static void writeOutResult(Integer[] sorted, String outputFilename) throws FileNotFoundException {
-
         PrintWriter out = new PrintWriter(outputFilename);
         for (Integer s : sorted) {
             out.println(s);
-            //out.println(s + " " + Integer.toBinaryString(s));
         }
         out.close();
-
     }
 
-    private static class BinaryComparator implements Comparator<Integer> {
+    private static class BinaryComparator implements Comparator<obj> {
 
         @Override
-        public int compare(Integer n1, Integer n2) {
-            int digits1 = Helper6.numBinaryOnes(n1);
-            int digits2 = Helper6.numBinaryOnes(n2);
-
-            int lengthSubstring1 = Helper6.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-            int lengthSubstring2 = Helper6.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-
+        public int compare(obj n1, obj n2) {
+            if(n1.getBinRep().equals("-1")){
+                n1.setNum1s();
+            }
+            if(n2.getBinRep().equals("-1")){
+                n2.setNum1s();
+            }
+            int digits1 = n1.getNum1s();
+            int digits2 = n2.getNum1s();
             if (digits1 != digits2) return (digits1 - digits2);
             // executed only of the number of 1s is the same
-            if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+
+            if(n1.getRepeatLength()==-1){
+                String binRep = n1.getBinRep();
+                n1.setRepeatLength(Helper6.lengthLongestRepeatedSubstring(binRep));
+            }
+            if(n2.getRepeatLength()==-1){
+                String binRep = n2.getBinRep();
+                n2.setRepeatLength(Helper6.lengthLongestRepeatedSubstring(binRep));
+            }
+            if (n1.getRepeatLength() != n2.getRepeatLength()) return (n1.getRepeatLength() - n2.getRepeatLength());
 
             // executed only if both of the other ones were the same:
-            return (n1 - n2);
+            return (n1.getName() - n2.getName());
         }
 
     }

@@ -1,4 +1,4 @@
-// Updated 11/4/21
+// Updated
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,6 +70,15 @@ public class Group10 {
 			}
 		}
 	}
+
+	
+	private static String[] toBinary(Integer[] toConvert) {
+		String[] binary = new String[toConvert.length];
+		for(int i = 0; i<binary.length; ++i) {
+			binary[i] = Integer.toBinaryString(toConvert[i]);
+		}
+		return binary;
+	}
 	
 	private static Integer[] readInts(String inFile) throws FileNotFoundException {
 		ArrayList<Integer> input = new ArrayList<>();
@@ -94,6 +103,17 @@ public class Group10 {
 		}
 		out.close();
 
+	}
+	private static <T extends Comparable<T>> void InsertionSort(ArrayList<T> a) {
+		for (int j = 1; j < a.size(); j++) {
+			T key = a.get(j);
+			int i = j - 1;
+			while (0 <= i && a.get(i).compareTo(key) > 0) {
+				a.set(i+1,a.get(i));
+				i--;
+			}
+			a.set(i + 1,key);
+		}
 	}
 	public static int lengthLongestRepeatedSubstring(String binary) {
 		if(binary.length() == 1) {

@@ -1,3 +1,5 @@
+// Updated 11/4/21
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -6,7 +8,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class Group0 {
+public class Group4 {
+
+	// Initial time taken for data1 is ~ 2192ms
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -49,9 +53,42 @@ public class Group0 {
 	// You would need to provide your own function that prints your sorted array to 
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
+//		quickSort(toSort,0,toSort.length -1);
 		Arrays.sort(toSort, new BinaryComparator());
 	}
-	
+//
+//	public static void quickSort(Integer[] arr, int begin, int end) {
+//		if (begin < end) {
+//			int partitionIndex = partition(arr, begin, end);
+//
+//			quickSort(arr, begin, partitionIndex-1);
+//			quickSort(arr, partitionIndex+1, end);
+//		}
+//	}
+//
+//	private static int partition(Integer[ ] arr, int begin, int end) {
+//		int pivot = arr[end];
+//		int i = (begin-1);
+//
+//		Comparator<Integer> comparator = new BinaryComparator();
+//
+//		for (int j = begin; j < end; j++) {
+//			if (comparator.compare(arr[j], pivot) <= 0) {
+//				i++;
+//
+//				int swapTemp = arr[i];
+//				arr[i] = arr[j];
+//				arr[j] = swapTemp;
+//			}
+//		}
+//
+//		int swapTemp = arr[i+1];
+//		arr[i+1] = arr[end];
+//		arr[end] = swapTemp;
+//
+//		return i+1;
+//	}
+
 	private static String[] readData(String inFile) throws FileNotFoundException {
 		ArrayList<String> input = new ArrayList<>();
 		Scanner in = new Scanner(new File(inFile));
@@ -86,7 +123,6 @@ public class Group0 {
 		PrintWriter out = new PrintWriter(outputFilename);
 		for (Integer s : sorted) {
 			out.println(s);
-			//out.println(s + " " + Integer.toBinaryString(s));
 		}
 		out.close();
 
@@ -96,23 +132,25 @@ public class Group0 {
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper.numBinaryOnes(n1);
-			int digits2 = Helper.numBinaryOnes(n2);
+			int digits1 = Helper4.numBinaryOnes(n1);
+			int digits2 = Helper4.numBinaryOnes(n2);
+
+			if (digits1 != digits2) return (digits1 - digits2);
+
+			String binary1 = Integer.toBinaryString(n1);
+			String binary2 = Integer.toBinaryString(n2);
+
+			int lengthSubstring1 = LongestRepeatedSubstring.lrs(binary1).length();
+			int lengthSubstring2 = LongestRepeatedSubstring.lrs(binary2).length();
+
+//			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(binary1);
+//			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(binary2);
+
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
 			
-			// Updated from the original version to compute the longest repeated substring only when needed 
-			if (digits1 == digits2) {
-				int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-				int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-
-				// executed only of the number of 1s is the same
-				if (lengthSubstring1 != lengthSubstring2)
-					return (lengthSubstring1 - lengthSubstring2);
-
-				// executed only if both of the other ones were the same:
-				return (n1 - n2);
-			}
-
-			return (digits1 - digits2);
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
 		}
 		
 	}

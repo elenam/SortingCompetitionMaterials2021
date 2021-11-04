@@ -1,3 +1,5 @@
+// Updated 11/4/21
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -5,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.HashMap;
 
-public class Group0 {
+public class Group9{
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -28,6 +31,8 @@ public class Group0 {
 		//printArray(sorted, 100);
 		
 		toSort = data.clone();
+
+		SubstrComparator.resetMemoization();
 		
 		Thread.sleep(10); //to let other things finish before timing; adds stability of runs
 
@@ -49,7 +54,7 @@ public class Group0 {
 	// You would need to provide your own function that prints your sorted array to 
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
-		Arrays.sort(toSort, new BinaryComparator());
+		Arrays.sort(toSort, new NumOnesComparator());
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {
@@ -78,7 +83,7 @@ public class Group0 {
 		in.close();
 		
 		// move input to an array of Integers
-		return (Integer[]) input.toArray(new Integer[0]);
+		return input.toArray(new Integer[0]);
 	}
 	
 	private static void writeOutResult(Integer[] sorted, String outputFilename) throws FileNotFoundException {
@@ -99,23 +104,66 @@ public class Group0 {
 			int digits1 = Helper.numBinaryOnes(n1);
 			int digits2 = Helper.numBinaryOnes(n2);
 			
-			// Updated from the original version to compute the longest repeated substring only when needed 
-			if (digits1 == digits2) {
-				int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-				int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-
-				// executed only of the number of 1s is the same
-				if (lengthSubstring1 != lengthSubstring2)
-					return (lengthSubstring1 - lengthSubstring2);
-
-				// executed only if both of the other ones were the same:
-				return (n1 - n2);
-			}
-
-			return (digits1 - digits2);
+			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+			
+			if (digits1 != digits2) return (digits1 - digits2);
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+			
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
 		}
 		
 	}
+
+	protected static class SubstrComparator implements Comparator<Integer> {
+
+		private static HashMap<Integer, Integer> substringLengthMap = new HashMap<>(10000);
+
+		private static Integer memoizeLength(Integer n){
+			Integer substringLength = Integer.valueOf(Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n)));
+			substringLengthMap.put(n, substringLength);
+			return substringLength;
+		}
+
+		private static Integer memoizedSubstrLength(Integer n){
+			Integer output = substringLengthMap.get(n);
+			if(output == null){
+				output = memoizeLength(n);
+			}
+			return output;
+		}
+
+		public static void resetMemoization(){
+			substringLengthMap = new HashMap<>(10000);
+		}
+
+		@Override
+		public int compare(Integer n1, Integer n2) {
+			int substrDif = memoizedSubstrLength(n1).compareTo(memoizedSubstrLength(n2));
+			if (substrDif != 0) {
+				return substrDif;
+			} else {
+				return n1.compareTo(n2);
+			}
+		}
+	}
+
+	private static class NumOnesComparator implements Comparator<Integer> {
+
+		private static SubstrComparator innerComparator = new SubstrComparator();
+
+		@Override
+		public int compare(Integer n1, Integer n2){
+			int numOnesDifference = Integer.bitCount(n1) - Integer.bitCount(n2);
+			if(numOnesDifference != 0){
+				return numOnesDifference;
+			} else {
+				return innerComparator.compare(n1, n2);
+			}
+		}
+	}
 	
 
-}
+} 

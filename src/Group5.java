@@ -1,3 +1,5 @@
+// Updated 11/4/21
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -6,7 +8,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class Group0 {
+public class Group5 {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -50,6 +52,8 @@ public class Group0 {
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
 		Arrays.sort(toSort, new BinaryComparator());
+		// QuickSort<Integer> quicksorter = new QuickSort<>();
+		// quicksorter.quicksort(toSort, 0, toSort.length-1, new BinaryComparator());
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {
@@ -96,23 +100,20 @@ public class Group0 {
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper.numBinaryOnes(n1);
-			int digits2 = Helper.numBinaryOnes(n2);
+			int digits1 = Helper5.numBinaryOnes(n1);
+			int digits2 = Helper5.numBinaryOnes(n2);
 			
-			// Updated from the original version to compute the longest repeated substring only when needed 
-			if (digits1 == digits2) {
-				int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-				int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+			if (digits1 != digits2) return (digits1 - digits2);
 
-				// executed only of the number of 1s is the same
-				if (lengthSubstring1 != lengthSubstring2)
-					return (lengthSubstring1 - lengthSubstring2);
+			int lengthSubstring1 = Helper5.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+			int lengthSubstring2 = Helper5.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
 
-				// executed only if both of the other ones were the same:
-				return (n1 - n2);
-			}
-
-			return (digits1 - digits2);
+			
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+			
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
 		}
 		
 	}

@@ -1,12 +1,18 @@
+// Updated 11/4/21
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.List;
 
-public class Group0 {
+public class Group7 {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -50,6 +56,7 @@ public class Group0 {
 	// a file in the exact same format that my program outputs
 	private static void sort(Integer[] toSort) {
 		Arrays.sort(toSort, new BinaryComparator());
+		//bucketSort(toSort);
 	}
 	
 	private static String[] readData(String inFile) throws FileNotFoundException {
@@ -81,6 +88,7 @@ public class Group0 {
 		return (Integer[]) input.toArray(new Integer[0]);
 	}
 	
+	
 	private static void writeOutResult(Integer[] sorted, String outputFilename) throws FileNotFoundException {
 
 		PrintWriter out = new PrintWriter(outputFilename);
@@ -99,22 +107,71 @@ public class Group0 {
 			int digits1 = Helper.numBinaryOnes(n1);
 			int digits2 = Helper.numBinaryOnes(n2);
 			
-			// Updated from the original version to compute the longest repeated substring only when needed 
-			if (digits1 == digits2) {
-				int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-				int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-
-				// executed only of the number of 1s is the same
-				if (lengthSubstring1 != lengthSubstring2)
-					return (lengthSubstring1 - lengthSubstring2);
-
-				// executed only if both of the other ones were the same:
-				return (n1 - n2);
-			}
-
-			return (digits1 - digits2);
+			int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+			int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
+			
+			if (digits1 != digits2) return (digits1 - digits2);
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+			
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
 		}
 		
+	}
+	
+
+	private static int hash( int i, int max, int numOfBuckets){
+		return (int) ((double) i / max * (numOfBuckets -1));
+	}
+
+	private static Integer[] bucketSort(Integer[] toSort){
+		final int numOfBuckets = toSort.length;
+		List<List<Integer>> buckets = new ArrayList<>(numOfBuckets);
+		for(int i=0; i< numOfBuckets; i++){
+			buckets.add(new ArrayList<Integer>());
+		}
+		//////////////////////////////
+		for(int i=0; i < toSort.length; i++){
+			Integer[] binArray = new Integer[toSort.length];
+			binArray[i]= Helper.numBinaryOnes(toSort[i]);	
+		}
+		int max = findMax(toSort);
+		for (int i : toSort){
+			buckets.get(hash(i,max,numOfBuckets)).add(i);
+		}
+
+	
+		for(List<Integer> bucket : buckets){
+			Integer[] finalResult = new Integer[bucket.size()];
+			Integer[] newBucket;
+			newBucket =bucket.toArray(finalResult);
+			Arrays.sort(newBucket, new BinaryComparator());
+		}
+		
+		//Comparator<Integer> comparator = Comparator.naturalOrder();
+
+		//for(List<Integer> bucket  : buckets){
+    	//	bucket.sort(comparator);
+		//}
+
+		List<Integer> sortedArray= new LinkedList<>();
+		for(List<Integer> bucket : buckets){
+			sortedArray.addAll(bucket);
+		}
+		//return sortedArray;
+		Integer[] finalResult = new Integer[sortedArray.size()];
+		return(sortedArray.toArray(finalResult));
+		
+
+	}
+	///////////////////////
+	private static int findMax(Integer[] input){
+		int m = Integer.MIN_VALUE;
+		for(int i: input){
+			m = Math.max(i,m);
+		}
+		return m;
 	}
 	
 

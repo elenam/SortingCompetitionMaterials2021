@@ -1,3 +1,5 @@
+// Updated 11/4/21
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -6,7 +8,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class Group0 {
+public class Group3 {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
@@ -86,7 +88,6 @@ public class Group0 {
 		PrintWriter out = new PrintWriter(outputFilename);
 		for (Integer s : sorted) {
 			out.println(s);
-			//out.println(s + " " + Integer.toBinaryString(s));
 		}
 		out.close();
 
@@ -96,23 +97,24 @@ public class Group0 {
 
 		@Override
 		public int compare(Integer n1, Integer n2) {
-			int digits1 = Helper.numBinaryOnes(n1);
-			int digits2 = Helper.numBinaryOnes(n2);
+//			int digits1 = Helper3.numBinaryOnes(n1);
+//			int digits2 = Helper3.numBinaryOnes(n2);
+
+			int digits1 = Integer.bitCount(n1);
+			int digits2 = Integer.bitCount(n2);
+
+//			int lengthSubstring1 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
+//			int lengthSubstring2 = Helper3.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
 			
-			// Updated from the original version to compute the longest repeated substring only when needed 
-			if (digits1 == digits2) {
-				int lengthSubstring1 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n1));
-				int lengthSubstring2 = Helper.lengthLongestRepeatedSubstring(Integer.toBinaryString(n2));
-
-				// executed only of the number of 1s is the same
-				if (lengthSubstring1 != lengthSubstring2)
-					return (lengthSubstring1 - lengthSubstring2);
-
-				// executed only if both of the other ones were the same:
-				return (n1 - n2);
-			}
-
-			return (digits1 - digits2);
+			int lengthSubstring1 = Helper3.LNRNOS(Integer.toBinaryString(n1));
+			int lengthSubstring2 = Helper3.LNRNOS(Integer.toBinaryString(n2));
+			
+			if (digits1 != digits2) return (digits1 - digits2);
+			// executed only of the number of 1s is the same
+			if (lengthSubstring1 != lengthSubstring2) return (lengthSubstring1 - lengthSubstring2);
+			
+			// executed only if both of the other ones were the same:
+			return (n1 - n2);
 		}
 		
 	}

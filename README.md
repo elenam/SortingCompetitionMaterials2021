@@ -121,3 +121,24 @@ The second preliminary competition will be run in the lab on Thursday Oct 28 at 
 The final competition will run in the lab in the beginning of the class on Thursday Nov 4th. 
 
 The deadlines for other related assignments (code review and presentations) will be announced later. 
+
+## Results
+
+The results of the final run are on two scoreboards since wrong code was run for Group 4: [the scoreboard of the main run](final/scoreboard.txt) 
+and a [the scoreboard for a corerct run of Group 4, measuring their time](final-update-group4/scoreboard.txt). 
+
+Congratualtions to the winners, and thank you to all who participated!!! 
+
+   * Out of class 1st place: Group 12 (Kevin Arhelger)
+   * Out of class 2nd place: Group 11 (Joe Walbran)
+   * In class 1st place (3rd overall): Group 8 (Thomas Dahlgren and Josh Quist)
+   * In class 2nd place (4th overall): Group 10 (Ollie Willette and KD)
+   * In class 3rd place (5th overall): Group 9 (Ben G. and Johannes M.)
+   * In class 4th place (6th overall): Group 6 (Nicholas Gilbertson, Dylan Cramer)
+   * In class 5th place (7th overall): Group 1 (Austin and Shawn)
+   * In class 6th place (8th overall): Group 5 (Noah and Cole) 
+   * In class 7th place (9th overall): Group 4 (Biruk, Dante, and Elena) Note: wrong code was run during the competition, so the group was ran separately)
+   * In class 8th place (10th overall): Group 7 (Jadyn S. and Isabelle H.)
+   * In class 9th place (11th overall): Group 3 (Zeke Krug, Ben Burgess)
+   * In class 10th place (12th overall): Group 2 (Richard Lussier, Natasha Zebrev, Audrey LeMeur)    
+
